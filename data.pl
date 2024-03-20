@@ -1,3 +1,5 @@
+:- dynamic item/3, alternative/2, boycott_company/2.
+
 customer(101, shahd_ghazal2002).
 customer(102, abu_juliaa).
 customer(103, abomoaaz23).
@@ -214,8 +216,17 @@ getTheDifferenceInPriceBetweenItemAndAlternative(Item, Alter, Diff):-
 /*
 Problem 12
 */
+add_item(Name, Brand, Price):-
+    not(item(Name, _, _)),assert(item(Name, Brand, Price)).
+remove_item(Name, Brand, Price):-
+    item(Name, Brand, Price),retract(item(Name, Brand, Price)).
 
+add_alternative(Item, Alter):-
+    not(alternative(Item, Alter)),assert(alternative(Item, Alter)).
+remove_alternative(Item, Alter):-
+    alternative(Item, Alter),retract(alternative(Item, Alter)).
 
-
-
-
+add_boycott_company(Company, Reason):-
+    not(boycott_company(Company, Reason)),assert(boycott_company(Company, Reason)).
+remove_boycott_company(Company, Reason):-
+    boycott_company(Company, Reason),retract(boycott_company(Company, Reason)).
