@@ -1,3 +1,4 @@
+% Include data.pl file
 :-consult(data).
 
 /*
@@ -18,11 +19,35 @@ Problem 4
 
 /*
 Problem 5
+    Predicate to calculate the price of a given order,
+    given customer username and order ID.
 */
+getOrder(CustomerUsername, OrderID, Items):-
+    customer(CustID, CustomerUsername),
+    order(CustID, OrderID, Items).
+
+getItemPrice(ItemName, ItemPrice):-
+    item(ItemName, _, ItemPrice).
+
+evaluateTotalPrice([], 0).
+
+evaluateTotalPrice([Head|Tail], TotalPrice):-
+    getItemPrice(Head, ItemPrice),
+    evaluateTotalPrice(Tail, RemainingItemsPrice),
+    TotalPrice is ItemPrice + RemainingItemsPrice.
+
+calcPriceOfOrder(CustomerUsername, OrderID, TotalPrice):-
+    getOrder(CustomerUsername, OrderID, Items),
+    evaluateTotalPrice(Items, TotalPrice).
 
 /*
 Problem 6
+    Predicate to determine whether we need to boycott or not,
+    given item name or company name.
 */
+isBoycott(Name):-
+    alternative(Name, _);
+    boycott_company(Name, _).
 
 /*
 Problem 7
@@ -30,8 +55,21 @@ Problem 7
 
 /*
 Problem 8
+    Predicate to remove all the boycott items from a given order,
+    given an customer username and order ID.
 */
+removeBoycottItems([], []).
 
+removeBoycottItems([Head|Tail], NewList):-
+    alternative(Head, _),
+    removeBoycottItems(Tail, NewList).
+
+removeBoycottItems([Head|Tail1], [Head|Tail2]):-
+    removeBoycottItems(Tail1, Tail2).
+
+removeBoycottItemsFromAnOrder(CustomerUsername, OrderID, NewList):-
+    getOrder(CustomerUsername, OrderID, Items),
+    removeBoycottItems(Items, NewList).
 
 /*
 Problem 9
@@ -47,10 +85,12 @@ Problem 10
 */
 
 /*
+
 Problem 11
 */
 getTheDifferenceInPriceBetweenItemAndAlternative(Item, Alter, Diff):-
     alternative(Item,Alter),item(Item, _, Price1),item(Alter, _, Price2),Diff is Price1 - Price2.
+
 /*
 Problem 12
 */
