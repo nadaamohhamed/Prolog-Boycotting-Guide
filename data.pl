@@ -209,8 +209,8 @@ Problem 10
 /*
 Problem 11
 */
-
-
+getTheDifferenceInPriceBetweenItemAndAlternative(Item, Alter, Diff):-
+    alternative(Item,Alter),item(Item, _, Price1),item(Alter, _, Price2),Diff is Price1 - Price2.
 /*
 Problem 12
 */
