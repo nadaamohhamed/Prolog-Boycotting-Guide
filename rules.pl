@@ -13,7 +13,7 @@ Problem 2
 
 /*
 Problem 3
-    Predicate to list all items in a specific customer order, given customer ID and order ID.
+    Predicate to list all items in a specific customer order, given customer username and order ID.
 */
 
 /*

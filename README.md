@@ -14,7 +14,7 @@ To run the program, simply open the Prolog interpreter and consult the file `rul
 2. ```countOrdersOfCustomer(CustomerUsername, Count)```:
     Predicate to get the number of orders of a specific customer given customer username.
 3. ```getItemsInOrderById(CustomerUsername, OrderID, Items)```:
-    Predicate to list all items in a specific customer order, given customer ID and order ID.
+    Predicate to list all items in a specific customer order, given customer username and order ID.
 4. ```getNumOfItems(CustomerUsername, OrderID, Count)```:
     Predicate to get the number of items in a specific customer order, given customer username and order ID.
 5. ```calcPriceOfOrder(CustomerUsername, OrderID, TotalPrice)```:
