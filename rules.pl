@@ -3,7 +3,7 @@
 
 /*
 Problem 1
-List all orders of a specific customer (as a list).
+    Predicate to list all orders of a specific customer, as a list.
 */
 getCustomerID(CustomerName, CustID):-
     customer(CustID, CustomerName).
@@ -29,8 +29,7 @@ Problem 2
 
 /*
 Problem 3
-List all items in a specific customer order given customer id and
-order id.
+    Predicate to list all items in a specific customer order, given customer ID and order ID.
 */
 
 getItemsInOrderById(CustomerName, OrderID, Items):-
@@ -106,19 +105,13 @@ replaceBoycottItemsFromAnOrder(CUSTOMER, ORDER_ID, NewList) :-
 
 /*
 Problem 10
-Given an username and order ID, calculate the price of the order after
-replacing all boycott items by its alternative (if it exists).
+    Predicate to calculate the price of the order after replacing all boycott items by its alternative (if exists), given a customer username and order ID.
 */
 
 calcPriceAfterReplacingBoycottItemsFromAnOrder(CustomerName, OrderID, NewList, TotalPrice):-
     replaceBoycottItemsFromAnOrder(CustomerName, OrderID, NewList),
     evaluateTotalPrice(NewList, TotalPrice).
 
-/*
-calcPriceAfterReplacingBoycottItemsFromAnOrder(CustomerName, OrderID, NewList, TotalPrice).
-    replaceBoycottItemsFromAnOrder(CustomerName, OrderID, NewList).
-    evaluateTotalPrice(NewList, TotalPrice).    
-*/
 
 /*
 
