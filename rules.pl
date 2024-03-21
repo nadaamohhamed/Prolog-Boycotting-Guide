@@ -27,6 +27,17 @@ Problem 2
     Predicate to get the number of orders of a specific customer given customer username.
 */
 
+listLength([],0).
+
+listLength([_|Tail], N):-
+    listLength(Tail, TmpN),
+    N is TmpN + 1.
+
+countOrdersOfCustomer(CustomerName, Count) :-
+    list_orders(CustomerName, Orders),
+    listLength(Orders, Count).
+
+
 /*
 Problem 3
     Predicate to list all items in a specific customer order, given customer ID and order ID.
@@ -40,6 +51,12 @@ getItemsInOrderById(CustomerName, OrderID, Items):-
 Problem 4
     Predicate to get the number of items in a specific customer order, given customer username and order ID.
 */
+
+getNumOfItems(CustomerName, OrderID, Count):-
+    customer(CustID, CustomerName),
+    getOrderItems(CustID, OrderID, Items),
+    listLength(Items, Count).
+
 
 /*
 Problem 5
@@ -75,6 +92,13 @@ isBoycott(Name):-
 Problem 7
     Predicate to find the justification why you need to boycott this company/item, given the company name or an item name.
 */
+whyToBoycott(Name, Justification) :-
+    boycott_company(Name, Justification).
+
+whyToBoycott(ItemName, Justification) :-
+    item(ItemName, Company, _),
+    boycott_company(Company, Justification).
+    
 
 /*
 Problem 8
