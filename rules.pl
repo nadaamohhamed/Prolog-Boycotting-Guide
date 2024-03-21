@@ -3,15 +3,38 @@
 
 /*
 Problem 1
+List all orders of a specific customer (as a list).
 */
+getCustomerID(CustomerName, CustID):-
+    customer(CustID, CustomerName).
 
+getOrderItems(CustID, OrderID, Items):-
+    order(CustID, OrderID, Items).
+
+getAllOrders(CustID, OrderID, [Order | OtherOrders]):-
+    getOrderItems(CustID, OrderID, Items),
+    Order = order(CustID, OrderID, Items),
+    NewOrderID is OrderID + 1,
+    getAllOrders(CustID, NewOrderID, OtherOrders).
+
+getAllOrders(CustID, _, []).
+
+list_orders(CustomerName, Orders):-
+    getCustomerID(CustomerName, CustID),
+    getAllOrders(CustID, 1, Orders).
 /*
 Problem 2
 */
 
 /*
 Problem 3
+List all items in a specific customer order given customer id and
+order id.
 */
+
+getItemsInOrderById(CustomerName, OrderID, Items):-
+    getCustomerID(CustomerName, CustID),
+    order(CustID, OrderID, Items).
 
 /*
 Problem 4
@@ -82,6 +105,18 @@ replaceBoycottItemsFromAnOrder(CUSTOMER, ORDER_ID, NewList) :-
 
 /*
 Problem 10
+Given an username and order ID, calculate the price of the order after
+replacing all boycott items by its alternative (if it exists).
+*/
+
+calcPriceAfterReplacingBoycottItemsFromAnOrder(CustomerName, OrderID, NewList, TotalPrice):-
+    replaceBoycottItemsFromAnOrder(CustomerName, OrderID, NewList),
+    evaluateTotalPrice(NewList, TotalPrice).
+
+/*
+calcPriceAfterReplacingBoycottItemsFromAnOrder(CustomerName, OrderID, NewList, TotalPrice).
+    replaceBoycottItemsFromAnOrder(CustomerName, OrderID, NewList).
+    evaluateTotalPrice(NewList, TotalPrice).    
 */
 
 /*
