@@ -17,7 +17,7 @@ getAllOrders(CustID, OrderID, [Order | OtherOrders]):-
     NewOrderID is OrderID + 1,
     getAllOrders(CustID, NewOrderID, OtherOrders).
 
-getAllOrders(CustID, _, []).
+getAllOrders(_, _, []).
 
 list_orders(CustomerName, Orders):-
     getCustomerID(CustomerName, CustID),
@@ -37,7 +37,6 @@ countOrdersOfCustomer(CustomerName, Count) :-
     list_orders(CustomerName, Orders),
     listLength(Orders, Count).
 
-
 /*
 Problem 3
     Predicate to list all items in a specific customer order, given customer ID and order ID.
@@ -51,21 +50,15 @@ getItemsInOrderById(CustomerName, OrderID, Items):-
 Problem 4
     Predicate to get the number of items in a specific customer order, given customer username and order ID.
 */
-
 getNumOfItems(CustomerName, OrderID, Count):-
     customer(CustID, CustomerName),
     getOrderItems(CustID, OrderID, Items),
     listLength(Items, Count).
 
-
 /*
 Problem 5
     Predicate to calculate the price of a given order, given customer username and order ID.
 */
-getOrder(CustomerUsername, OrderID, Items):-
-    customer(CustID, CustomerUsername),
-    order(CustID, OrderID, Items).
-
 getItemPrice(ItemName, ItemPrice):-
     item(ItemName, _, ItemPrice).
 
@@ -77,16 +70,19 @@ evaluateTotalPrice([Head|Tail], TotalPrice):-
     TotalPrice is ItemPrice + RemainingItemsPrice.
 
 calcPriceOfOrder(CustomerUsername, OrderID, TotalPrice):-
-    getOrder(CustomerUsername, OrderID, Items),
+    getItemsInOrderById(CustomerUsername, OrderID, Items),
     evaluateTotalPrice(Items, TotalPrice).
 
 /*
 Problem 6
     Predicate to determine whether we need to boycott or not, given item name or company name.
 */
-isBoycott(Name):-
-    alternative(Name, _);
-    boycott_company(Name, _).
+isBoycott(ItemName):-
+    item(ItemName, CompanyName, _),
+    boycott_company(CompanyName, _).
+
+isBoycott(CompanyName):-
+    boycott_company(CompanyName, _).
 
 /*
 Problem 7
@@ -99,7 +95,6 @@ whyToBoycott(ItemName, Justification) :-
     item(ItemName, Company, _),
     boycott_company(Company, Justification).
     
-
 /*
 Problem 8
     Predicate to remove all the boycott items from a given order, given a customer username and order ID.
@@ -107,14 +102,14 @@ Problem 8
 removeBoycottItems([], []).
 
 removeBoycottItems([Head|Tail], NewList):-
-    alternative(Head, _),
+    isBoycott(Head),
     removeBoycottItems(Tail, NewList).
 
 removeBoycottItems([Head|Tail1], [Head|Tail2]):-
     removeBoycottItems(Tail1, Tail2).
 
 removeBoycottItemsFromAnOrder(CustomerUsername, OrderID, NewList):-
-    getOrder(CustomerUsername, OrderID, Items),
+    getItemsInOrderById(CustomerUsername, OrderID, Items),
     removeBoycottItems(Items, NewList).
 
 /*
@@ -131,14 +126,12 @@ replaceBoycottItemsFromAnOrder(CUSTOMER, ORDER_ID, NewList) :-
 Problem 10
     Predicate to calculate the price of the order after replacing all boycott items by its alternative (if exists), given a customer username and order ID.
 */
-
 calcPriceAfterReplacingBoycottItemsFromAnOrder(CustomerName, OrderID, NewList, TotalPrice):-
     replaceBoycottItemsFromAnOrder(CustomerName, OrderID, NewList),
     evaluateTotalPrice(NewList, TotalPrice).
 
 
 /*
-
 Problem 11
     Predicate to calculate the difference in price between the boycott item and its alternative.
 */
