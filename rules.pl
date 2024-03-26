@@ -119,8 +119,8 @@ Problem 9
 replace([],[]).
 replace([H|T1], [H|T2]) :- not(alternative(H,_)), replace(T1, T2).
 replace([H|T1], [X|Y]) :- alternative(H,X), replace(T1, Y).
-replaceBoycottItemsFromAnOrder(CUSTOMER, ORDER_ID, NewList) :-
-    customer(Id, CUSTOMER),order(Id, ORDER_ID, ORDER),replace(ORDER,NewList).
+replaceBoycottItemsFromAnOrder(Customer, OrderID, NewList) :-
+    customer(Id, Customer),order(Id, OrderID, Order),replace(Order,NewList).
 
 /*
 Problem 10
