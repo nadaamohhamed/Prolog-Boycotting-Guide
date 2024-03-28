@@ -24,7 +24,7 @@ list_orders(CustomerName, Orders):-
     getAllOrders(CustID, 1, Orders).
 /*
 Problem 2
-    Predicate to get the number of orders of a specific customer given customer username.
+    Predicate to get the number of orders of a specific customer, given customer username.
 */
 
 listLength([],0).
@@ -117,10 +117,19 @@ Problem 9
     Predicate to update the order such that all boycott items are replaced by an alternative (if exists), given a customer username and order ID.
 */
 replace([],[]).
-replace([H|T1], [H|T2]) :- not(alternative(H,_)), replace(T1, T2).
-replace([H|T1], [X|Y]) :- alternative(H,X), replace(T1, Y).
+
+replace([H|T1], [H|T2]) :- 
+    not(alternative(H,_)), 
+    replace(T1, T2).
+
+replace([H|T1], [X|Y]) :- 
+    alternative(H,X), 
+    replace(T1, Y).
+
 replaceBoycottItemsFromAnOrder(Customer, OrderID, NewList) :-
-    customer(Id, Customer),order(Id, OrderID, Order),replace(Order,NewList).
+    customer(Id, Customer),
+    order(Id, OrderID, Order),
+    replace(Order,NewList).
 
 /*
 Problem 10
@@ -130,29 +139,42 @@ calcPriceAfterReplacingBoycottItemsFromAnOrder(CustomerName, OrderID, NewList, T
     replaceBoycottItemsFromAnOrder(CustomerName, OrderID, NewList),
     evaluateTotalPrice(NewList, TotalPrice).
 
-
 /*
 Problem 11
     Predicate to calculate the difference in price between the boycott item and its alternative.
 */
 getTheDifferenceInPriceBetweenItemAndAlternative(Item, Alter, Diff):-
-    alternative(Item,Alter),item(Item, _, Price1),item(Alter, _, Price2),Diff is Price1 - Price2.
+    alternative(Item,Alter),
+    item(Item, _, Price1),
+    item(Alter, _, Price2),
+    Diff is Price1 - Price2.
 
 /*
 Problem 12
     Predicate to add/remove item/alternative/boycott company to/from the knowledge base.
 */
 add_item(Name, Brand, Price):-
-    not(item(Name, _, _)),assert(item(Name, Brand, Price)).
+    not(item(Name, _, _)),
+    assert(item(Name, Brand, Price)).
+
 remove_item(Name, Brand, Price):-
-    item(Name, Brand, Price),retract(item(Name, Brand, Price)).
+    item(Name, Brand, Price),
+    retract(item(Name, Brand, Price)).
+
 
 add_alternative(Item, Alter):-
-    not(alternative(Item, Alter)),assert(alternative(Item, Alter)).
+    not(alternative(Item, Alter)),
+    assert(alternative(Item, Alter)).
+
 remove_alternative(Item, Alter):-
-    alternative(Item, Alter),retract(alternative(Item, Alter)).
+    alternative(Item, Alter),
+    retract(alternative(Item, Alter)).
+
 
 add_boycott_company(Company, Reason):-
-    not(boycott_company(Company, Reason)),assert(boycott_company(Company, Reason)).
+    not(boycott_company(Company, Reason)),
+    assert(boycott_company(Company, Reason)).
+
 remove_boycott_company(Company, Reason):-
-    boycott_company(Company, Reason),retract(boycott_company(Company, Reason)).
+    boycott_company(Company, Reason),
+    retract(boycott_company(Company, Reason)).
